@@ -45,9 +45,8 @@ public class Main {
                 case 4:{
                     System.out.print("Enter name of product to update: ");
                     productName = scanner.next();
-                    while (!inventory.checkProduct(productName, true)){
-                        System.out.print("Enter name of product to update: ");
-                        productName = scanner.next();
+                    if (!inventory.checkProduct(productName, true)){
+                        break;
                     }
                     System.out.print("Enter new amount: ");
                     amount = scanner.nextInt();
