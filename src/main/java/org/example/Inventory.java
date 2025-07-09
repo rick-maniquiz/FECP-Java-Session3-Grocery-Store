@@ -24,17 +24,18 @@ public class Inventory {
 //    }
 
     public int addProduct(String productName, int amount){
-        if(!this.checkProduct(productName, false) && amount > 0){
+        if(!this.checkProduct(productName, false) && amount >= 0){
             this.stocks.put(productName, amount);
         } else if (!this.checkProduct(productName, false)) {
             System.out.println("Invalid amount!");
             return -1;
         } else {
-            System.out.println(productName + " already exists!");
+            System.out.println(productName + " already exists! Updating the amount from " + this.stocks.get(productName) + " to " + amount + ".");
+            this.stocks.put(productName, amount);
             return -2;
         }
 
-        System.out.println(productName + " has been added!");
+        System.out.println(productName + " has been added with quantity "+amount+"!");
         return 0;
     }
 
@@ -42,17 +43,18 @@ public class Inventory {
         if(this.checkProduct(productName, false)){
             System.out.println(productName + " has been removed!");
             this.stocks.remove(productName);
+            return 0;
         } else {
             System.out.println("No " + productName + " available in the inventory!");
+            return -1;
         }
 
-        return 0;
     }
 
     public int updateProduct(String productName, int amount){
-        if(this.checkProduct(productName, false) && amount > 0){
+        if(this.checkProduct(productName, false) && amount >= 0){
             this.stocks.replace(productName, amount);
-        } else if (this.checkProduct(productName, false) && amount <= 0) {
+        } else if (this.checkProduct(productName, false) && amount < 0) {
             System.out.println("Invalid amount!");
             return -1;
         } else if (!this.checkProduct(productName, false)){
@@ -60,7 +62,7 @@ public class Inventory {
             return -2;
         }
 
-        System.out.println(productName + " has been updated!");
+        System.out.println(productName + " quantity has been updated to " +amount+ "!");
         return 0;
     }
 
@@ -68,6 +70,10 @@ public class Inventory {
         System.out.println("--- Items in stock ---");
         this.stocks.entrySet().stream().toList().forEach(stringIntegerEntry -> System.out.println(stringIntegerEntry.getKey() + " - " + stringIntegerEntry.getValue()));
         System.out.println("------- (END) --------");
+    }
+
+    public HashMap<String, Integer> getStocks(){
+        return this.stocks;
     }
 
 }
